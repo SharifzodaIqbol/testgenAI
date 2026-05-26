@@ -1,0 +1,353 @@
+/* Общие переменные для нового дизайна */
+:root {
+  --lp-bg-deep: #0f172a; /* Slate 900 */
+  --lp-bg-aurora-1: #1e1b4b; /* Indigo 950 */
+  --lp-bg-aurora-2: #312e81; /* Indigo 900 */
+  --lp-card-bg: rgba(255, 255, 255, 0.03); /* Полупрозрачный белый */
+  --lp-card-border: rgba(255, 255, 255, 0.08);
+  --lp-card-blur: 20px;
+  --lp-text-main: #f8fafc; /* Slate 50 */
+  --lp-text-muted: #94a3b8; /* Slate 400 */
+  --lp-primary: #818cf8; /* Indigo 400 */
+  --lp-primary-hover: #a5b4fc; /* Indigo 300 */
+  --lp-error-bg: rgba(220, 38, 38, 0.1); /* Red 600 with opacity */
+  --lp-error-border: rgba(248, 113, 113, 0.4); /* Red 400 with opacity */
+  --lp-error-text: #fca5a5; /* Red 300 */
+  --lp-input-bg: rgba(0, 0, 0, 0.2);
+  --lp-radius: 12px;
+  --lp-shadow-card: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+}
+
+.login-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 2rem;
+  background-color: var(--lp-bg-deep);
+  position: relative;
+  overflow: hidden;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+/* Глубокий анимированный фон (Aurora эффект) */
+.login-page::before,
+.login-page::after {
+  content: "";
+  position: absolute;
+  width: 600px;
+  height: 600px;
+  border-radius: 50%;
+  opacity: 0.5;
+  filter: blur(80px);
+  z-index: 1;
+  animation: aurora-float 20s infinite alternate ease-in-out;
+}
+
+.login-page::before {
+  background: radial-gradient(circle, var(--lp-bg-aurora-1) 0%, rgba(30, 27, 75, 0) 70%);
+  top: -150px;
+  left: -150px;
+}
+
+.login-page::after {
+  background: radial-gradient(circle, var(--lp-bg-aurora-2) 0%, rgba(49, 46, 129, 0) 70%);
+  bottom: -150px;
+  right: -150px;
+  animation-delay: -5s;
+}
+
+/* Основной контейнер карточки - Glassmorphism */
+.login-page__card-wrap {
+  position: relative;
+  z-index: 10; /* Поверх фона */
+  width: 100%;
+  max-width: 460px;
+  background-color: var(--lp-card-bg);
+  backdrop-filter: blur(var(--lp-card-blur));
+  -webkit-backdrop-filter: blur(var(--lp-card-blur)); /* For Safari */
+  border: 1px solid var(--lp-card-border);
+  border-radius: 24px;
+  padding: 3rem 2.5rem;
+  box-shadow: var(--lp-shadow-card);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.login-page__card-wrap:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 35px 60px -15px rgba(0, 0, 0, 0.6);
+}
+
+/* Header с логотипом */
+.login-page__header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 2.5rem;
+  text-align: center;
+}
+
+.login-page__logo-icon-wrap {
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  margin-bottom: 1rem;
+  box-shadow: 0 8px 20px rgba(99, 102, 241, 0.3);
+}
+
+.login-page__title {
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--lp-text-main);
+  letter-spacing: -0.04em;
+  margin-bottom: 0.5rem;
+}
+
+.login-page__subtitle {
+  font-size: 15px;
+  color: var(--lp-text-muted);
+  line-height: 1.5;
+  max-width: 320px;
+}
+
+/* Новые аккуратные табы */
+.login-page__tabs {
+  display: flex;
+  background-color: var(--lp-input-bg);
+  border-radius: 10px;
+  padding: 4px;
+  margin-bottom: 2rem;
+}
+
+.login-page__tab {
+  flex: 1;
+  padding: 0.7rem 1rem;
+  border: none;
+  background: transparent;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--lp-text-muted);
+  cursor: pointer;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.login-page__tab:hover:not(:disabled) {
+  color: var(--lp-text-main);
+}
+
+.login-page__tab--active {
+  background-color: rgba(255, 255, 255, 0.08);
+  color: var(--lp-text-main);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Стабильный контейнер ошибки с плавной анимацией */
+.login-page__error-container {
+  min-height: 0; /* Динамическая высота */
+  overflow: hidden;
+  transition: min-height 0.3s ease, margin-bottom 0.3s ease;
+}
+
+.login-page__error-container--active {
+  min-height: 60px;
+  margin-bottom: 1rem;
+}
+
+.login-page__error {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0.8rem 1rem;
+  background-color: var(--lp-error-bg);
+  border: 1px solid var(--lp-error-border);
+  border-radius: var(--lp-radius);
+  color: var(--lp-error-text);
+  font-size: 13px;
+  width: 100%;
+  box-sizing: border-box;
+  opacity: 0;
+  transform: translateY(-10px);
+  animation: error-slide-in 0.3s forwards ease-out;
+  box-shadow: 0 4px 12px rgba(220, 38, 38, 0.15);
+}
+
+.login-page__error-icon {
+  flex-shrink: 0;
+  color: #ef4444; /* Red 500 */
+}
+
+/* Форма и инпуты */
+.login-page__form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.login-page__field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.login-page__label {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--lp-text-muted);
+  padding-left: 4px;
+}
+
+.input-icon-wrap {
+  position: relative;
+}
+
+.input-icon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #64748b; /* Slate 500 */
+  pointer-events: none;
+  transition: color 0.2s ease;
+}
+
+.lp-input {
+  width: 100%;
+  background-color: var(--lp-input-bg);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: var(--lp-radius);
+  padding: 0.85rem 1rem 0.85rem 42px; /* Воздушные отступы */
+  color: var(--lp-text-main);
+  font-size: 14px;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
+}
+
+.lp-input::placeholder {
+  color: #475569; /* Slate 600 */
+}
+
+.lp-input:hover:not(:disabled) {
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+.lp-input:focus {
+  outline: none;
+  border-color: var(--lp-primary);
+  background-color: rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 0 4px rgba(129, 140, 248, 0.15);
+}
+
+.lp-input:focus + .input-icon {
+  color: var(--lp-primary);
+}
+
+.lp-input:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Кнопка отправки */
+.login-page__submit-btn {
+  width: 100%;
+  justify-content: center;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0.85rem;
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+  border: none;
+  border-radius: var(--lp-radius);
+  color: #fff;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-top: 0.5rem;
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
+}
+
+.login-page__submit-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(99, 102, 241, 0.3);
+}
+
+.login-page__submit-btn:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.login-page__submit-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  background: #475569; /* Slate 600 */
+  box-shadow: none;
+}
+
+.spinner-rotate {
+  animation: rotate 1s linear infinite;
+}
+  /* Кнопка-глазок для пароля */
+.input-eye-btn {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  color: #64748b; /* Slate 500 */
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  border-radius: 6px;
+  transition: color 0.2s, background-color 0.2s;
+}
+
+.input-eye-btn:hover:not(:disabled) {
+  color: var(--lp-text-main);
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.input-eye-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Слегка увеличим отступ справа у инпута пароля, чтобы текст не заезжал под глазок */
+input[type="password"].lp-input,
+input[type="text"].lp-input {
+  padding-right: 42px;
+}
+/* Анимации */
+@keyframes aurora-float {
+  0% { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(50px, 50px) scale(1.1); }
+}
+
+@keyframes error-slide-in {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Адаптивность */
+@media (max-width: 480px) {
+  .login-page { padding: 1rem; }
+  .login-page__card-wrap {
+    padding: 2.5rem 1.5rem;
+    border-radius: 20px;
+  }
+  .login-page__title { font-size: 24px; }
+}
